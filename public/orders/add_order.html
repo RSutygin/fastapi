@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1 " charset="utf-8">
+    <title>Добавление заказа</title>
+</head>
+<body>
+    <div id="message"></div>
+    <p>
+        <h2>Добавление заказа</h2>
+    </p>
+    <p>
+        Введите описание заказа: <br />
+        <input name="order_name" id="order_name">
+    </p>
+    <p>
+        Введите сумму заказа: <br />
+        <input name="price" id="price" type="number" />
+    </p>
+    <p>
+        Выберите дату заказа: <br>
+        <input type="date" id="date1" name="date1">
+    </p>
+    <button onclick="send()">Отправить</button>
+<script>
+    async function send(){
+
+        // получаем введенное в поле имя и возраст
+        const order_name = document.getElementById("order_name").value;
+        const price = document.getElementById("price").value;
+        const date1 = document.getElementById("date1").value;
+
+        // отправляем запрос
+        const response = await fetch("/add_order_result", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: order_name,
+                    price: price,
+                    date: date1
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>

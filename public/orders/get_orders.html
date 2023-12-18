@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1 " charset="utf-8">
+    <title>Заказы</title>
+</head>
+<body>
+    <div id="message"></div>
+    <p>
+        <h2>Список заказов по дате</h2>
+    </p>
+    <p>
+        Выберите дату заказов: <br>
+        <input type="date" id="date1" name="date1">
+    </p>
+    <button onclick="send()">Показать</button>
+<script>
+    async function send(){
+
+        // получаем введенное в поле имя и возраст
+        const date1 = document.getElementById("date1").value;
+
+        // отправляем запрос
+        const response = await fetch("/get_orders_result", {
+                method: "GET",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "data": date1 },
+            });
+            if (response.ok) {
+                const html = await response.text();
+                document.getElementById("message").innerHTML = html
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>

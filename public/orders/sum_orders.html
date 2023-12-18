@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1 " charset="utf-8">
+    <title>Сумма заказов</title>
+</head>
+<body>
+    <div id="message"></div>
+    <p>
+        <h2>Сумма заказов по датам</h2>
+    </p>
+    <p>
+        Выберите даты заказов: <br>
+        c:
+        <input type="date" id="date1" name="date1">
+        по: 
+        <input type="date" id="date2" name="date2">
+    </p>
+    <button onclick="send()">Рассчитать</button>
+<script>
+    async function send(){
+
+        // получаем введенное в поле имя и возраст
+        const date1 = document.getElementById("date1").value;
+        const date2 = document.getElementById("date2").value;
+
+        // отправляем запрос
+        const response = await fetch("/sum_orders_result", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    date1: date1,
+                    date2: date2
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>
